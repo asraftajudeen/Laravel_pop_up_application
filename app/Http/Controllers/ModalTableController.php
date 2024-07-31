@@ -33,4 +33,9 @@ class ModalTableController extends Controller
 
         return response()->json(['success' => 'Data added successfully']);
     }
+    public function fetchRecords()
+{
+    $records = Modaltable::all(); // Fetch all records or use pagination
+    return view('recordsTable', compact('records')); // Return the partial view with the updated records
+}
 }

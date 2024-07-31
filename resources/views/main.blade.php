@@ -15,7 +15,7 @@
         <tbody>
             @foreach($records as $item)
                 <tr>
-                    <td><a href="#" class="modalshow" data-id="{{ $item->id }}">{{ $item->id }}</a></td>
+                    <td><a href="/{{$item->id}}" class="modalshow" data-id="{{ $item->id }}">{{ $item->id }}</a></td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->email }}</td>
                 </tr>
@@ -57,7 +57,6 @@
                 method: 'GET',
                 data: { 'id': id },
                 success: function(data) {
-                    console.log('Modal show response:', data); // Log the response
                     $('#modalContainer').html(data);
                     $('#Modaltab').modal('show'); // Show the modal
                 },
@@ -78,14 +77,22 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 success: function(response) {
-                    console.log('Form submission response:', response); // Log the response
-                    alert(response.success);
-                    $('#addDataForm')[0].reset(); // Clear the form
-                    $('.modalshow').first().click(); // Refresh the table data
+                    $('#addDataForm')[0].reset(); // Clear the form // Refresh the table data
                 },
                 error: function(response) {
                     console.log('Form submission error:', response); // Log the error
                     alert('An error occurred while adding the data.');
+                }
+            });
+             // Fetch and update the records
+             $.ajax({
+                url: '{{ route('fetch.records') }}',
+                method: 'GET',
+                success: function(data) {
+                    $('.records-part').html(data); // Update the records table
+                },
+                error: function() {
+                    alert('An error occurred while fetching the records.');
                 }
             });
         });
