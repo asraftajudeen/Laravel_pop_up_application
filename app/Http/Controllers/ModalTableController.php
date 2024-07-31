@@ -7,10 +7,16 @@ use App\Models\Modaltable;
 
 class ModalTableController extends Controller
 {
+    public function ElementModalShow(Request $request)
+  {
+    $id = $request->input('id'); // Get the ID from the request
+    $data = Modaltable::where('id', $id)->get();
+    return view('ElementModalTable', compact('data'));
+  }
     public function Modalshow()
-    {
-        $data = Modaltable::all();
-        return view('modalTable', compact('data'));
+       {
+        $records = Modaltable::all();
+        return view('main', compact('records'));
     }
 
     public function storeData(Request $request)
